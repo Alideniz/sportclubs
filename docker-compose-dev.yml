@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: sportclubs-postgres-dev
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+    networks:
+      - sportclubs-network-dev
+    restart: always
+
+networks:
+  sportclubs-network-dev:
+    driver: bridge
+
+volumes:
+  postgres-data-dev: 
