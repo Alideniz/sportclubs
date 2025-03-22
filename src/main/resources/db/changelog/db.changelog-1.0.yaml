@@ -1,0 +1,164 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.0.0
+      author: sportclubs
+      changes:
+        - sql:
+            sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: varchar(2000)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: google_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_login_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_users_email
+            tableName: users
+            columns:
+              - column:
+                  name: email
+        - createIndex:
+            indexName: idx_users_google_id
+            tableName: users
+            columns:
+              - column:
+                  name: google_id
+                  
+  - changeSet:
+      id: 1.0.1
+      author: sportclubs
+      changes:
+        - createTable:
+            tableName: SPRING_SESSION
+            columns:
+              - column:
+                  name: PRIMARY_ID
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: SESSION_ID
+                  type: char(36)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: CREATION_TIME
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_ACCESS_TIME
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: MAX_INACTIVE_INTERVAL
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: EXPIRY_TIME
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PRINCIPAL_NAME
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+        - createIndex:
+            indexName: SPRING_SESSION_IX1
+            tableName: SPRING_SESSION
+            columns:
+              - column:
+                  name: SESSION_ID
+        - createIndex:
+            indexName: SPRING_SESSION_IX2
+            tableName: SPRING_SESSION
+            columns:
+              - column:
+                  name: EXPIRY_TIME
+        - createIndex:
+            indexName: SPRING_SESSION_IX3
+            tableName: SPRING_SESSION
+            columns:
+              - column:
+                  name: PRINCIPAL_NAME
+                  
+  - changeSet:
+      id: 1.0.2
+      author: sportclubs
+      changes:
+        - createTable:
+            tableName: SPRING_SESSION_ATTRIBUTES
+            columns:
+              - column:
+                  name: SESSION_PRIMARY_ID
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: SPRING_SESSION_ATTRIBUTES_FK
+                    references: SPRING_SESSION(PRIMARY_ID)
+                    deleteCascade: true
+              - column:
+                  name: ATTRIBUTE_NAME
+                  type: varchar(200)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: ATTRIBUTE_BYTES
+                  type: bytea
+                  constraints:
+                    nullable: false 
