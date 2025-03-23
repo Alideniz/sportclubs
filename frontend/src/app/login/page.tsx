@@ -37,7 +37,7 @@ export default function LoginPage() {
 
         <div className="mt-6 text-center text-sm">
           <span className="text-gray-500">New to our platform?</span>{' '}
-          <Link href="/" className="font-medium text-blue-600 hover:text-blue-500">
+          <Link href="/frontend/sportclubs-ui/public" className="font-medium text-blue-600 hover:text-blue-500">
             Learn more
           </Link>
         </div>
