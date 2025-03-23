@@ -29,6 +29,9 @@
     <properties>
         <java.version>21</java.version>
         <kotlin.version>1.9.25</kotlin.version>
+        <hibernate.version>6.4.4.Final</hibernate.version>
+        <ehcache.version>3.10.8</ehcache.version>
+        <caffeine.version>3.1.8</caffeine.version>
     </properties>
     <dependencies>
         <dependency>
@@ -92,6 +95,22 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
         </dependency>
     </dependencies>
 

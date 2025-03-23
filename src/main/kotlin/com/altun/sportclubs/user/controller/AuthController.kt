@@ -17,7 +17,7 @@ class AuthController(private val userService: UserService) {
 
     @GetMapping("/login/success")
     fun loginSuccess(@AuthenticationPrincipal principal: OAuth2User): ResponseEntity<UserInfoResponse> {
-        val user = userService.processOAuth2User(principal)
+        val user = userService.getOrCreateUserFromOAuth2(principal)
         val userDTO = UserDTO.fromEntity(user)
         return ResponseEntity.ok(UserInfoResponse(userDTO))
     }
@@ -41,7 +41,7 @@ class AuthController(private val userService: UserService) {
     @GetMapping("/user")
     fun getCurrentUser(@AuthenticationPrincipal principal: OAuth2User?): ResponseEntity<*> {
         return if (principal != null) {
-            val user = userService.processOAuth2User(principal)
+            val user = userService.getOrCreateUserFromOAuth2(principal)
             val userDTO = UserDTO.fromEntity(user)
             ResponseEntity.ok(UserInfoResponse(userDTO))
         } else {
