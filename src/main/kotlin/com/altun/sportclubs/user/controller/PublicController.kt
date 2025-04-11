@@ -12,25 +12,23 @@ class PublicController {
 
     @GetMapping("/health")
     fun health(): ResponseEntity<Map<String, Any>> {
-        val response = HashMap<String, Any>()
-        response["status"] = "UP"
-        response["message"] = "Application is running"
-        return ResponseEntity.ok(response)
+        return ResponseEntity.ok(
+            mapOf(
+                "status" to "UP",
+                "message" to "Application is running"
+            )
+        )
     }
-    
+
     @GetMapping("/oauth2/login-options")
     fun loginOptions(): ResponseEntity<Map<String, Any>> {
-        val response = HashMap<String, Any>()
-        val options = ArrayList<Map<String, Any>>()
-        
-        val google = HashMap<String, Any>()
-        google["provider"] = "google"
-        google["url"] = "/oauth2/authorization/google"
-        google["name"] = "Google"
-        
-        options.add(google)
-        
-        response["options"] = options
+        val response = mapOf(
+            "options" to mapOf(
+                "provider" to "google",
+                "url" to "/oauth2/authorization/google",
+                "name" to "Google",
+            )
+        )
         return ResponseEntity.ok(response)
     }
 } 

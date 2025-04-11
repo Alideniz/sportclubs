@@ -13,17 +13,13 @@ class CustomOAuth2UserService(private val userService: UserService) : DefaultOAu
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         val oAuth2User = super.loadUser(userRequest)
-        
+
         try {
-            // Process the OAuth2 user and save/update in our database
-            // This now has optimistic locking and retry mechanism
             userService.processOAuth2User(oAuth2User)
         } catch (e: Exception) {
-            // Log the error but don't fail authentication
-            // This will ensure the user can still log in even if there's a DB issue
             logger.error("Error processing OAuth2 user: ${e.message}", e)
         }
-        
+
         return oAuth2User
     }
 } 

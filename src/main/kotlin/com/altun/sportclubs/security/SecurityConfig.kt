@@ -13,7 +13,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig(
     private val customOAuth2UserService: CustomOAuth2UserService,
-    private val oAuth2SuccessHandler: OAuth2SuccessHandler
 ) {
 
     @Bean
@@ -32,7 +31,7 @@ class SecurityConfig(
                     .userInfoEndpoint { userInfo ->
                         userInfo.userService(customOAuth2UserService)
                     }
-                    .successHandler(oAuth2SuccessHandler)
+                    .defaultSuccessUrl("http://localhost:3000/dashboard")
                     .failureUrl("/api/auth/login/failure")
             }
             .logout { logout ->

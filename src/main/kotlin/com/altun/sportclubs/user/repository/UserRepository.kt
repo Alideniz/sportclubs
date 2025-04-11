@@ -9,16 +9,11 @@ import java.util.Optional
 import java.util.UUID
 
 @Repository
-interface UserRepository : JpaRepository<User, UUID>, CustomUserRepository {
+interface UserRepository : JpaRepository<User, UUID> {
 
-    /**
-     * Find user by email with query cache
-     */
     @Query("SELECT u FROM User u WHERE u.email = :email")
     fun findByEmail(@Param("email") email: String): Optional<User>
 
-    /**
-     * Check if user exists by email
-     */
-    fun existsByEmail(email: String): Boolean
+    @Query("SELECT u FROM User u WHERE u.googleId = :googleId")
+    fun findUserByGoogleId(@Param("googleId") googleId: String): Optional<User>
 } 

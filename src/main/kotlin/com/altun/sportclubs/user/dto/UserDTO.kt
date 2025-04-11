@@ -24,6 +24,7 @@ data class UserDTO(
             )
         }
     }
+
 }
 
 data class UserInfoResponse(

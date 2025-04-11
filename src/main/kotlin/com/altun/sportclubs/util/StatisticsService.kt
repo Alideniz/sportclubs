@@ -9,14 +9,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.sql.DataSource
 
-/**
- * Service for monitoring database and Hibernate performance
- * Based on Vlad Mihalcea's recommendations for tracking database performance metrics
- */
 @Service
 class StatisticsService(
     private val sessionFactory: SessionFactory,
-    private val dataSource: DataSource
 ) {
     private val logger = LoggerFactory.getLogger(StatisticsService::class.java)
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -62,12 +57,5 @@ class StatisticsService(
         val statistics = sessionFactory.statistics
         statistics.clear()
         logger.info("Hibernate statistics reset at {}", LocalDateTime.now().format(formatter))
-    }
-
-    /**
-     * Get current statistics snapshot
-     */
-    fun getStatistics(): Statistics {
-        return sessionFactory.statistics
     }
 } 
