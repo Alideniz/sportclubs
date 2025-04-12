@@ -4,7 +4,7 @@ package com.altun.sportclubs.club.model
 import com.altun.sportclubs.user.model.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(

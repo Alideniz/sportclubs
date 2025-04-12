@@ -2,7 +2,7 @@ package com.altun.sportclubs.user.dto
 
 import com.altun.sportclubs.user.model.User
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 data class UserDTO(
     val id: UUID,

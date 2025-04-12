@@ -1,11 +1,14 @@
 package com.altun.sportclubs.club.controller
 
 import com.altun.sportclubs.club.dto.ClubDTO
+import com.altun.sportclubs.club.dto.CreateClubRequest
+import com.altun.sportclubs.club.dto.UserClubRoleDTO
 import com.altun.sportclubs.club.model.ClubRole
 import com.altun.sportclubs.club.service.ClubService
 import com.altun.sportclubs.club.service.UserClubRoleService
 import com.altun.sportclubs.user.dto.UserDTO
 import com.altun.sportclubs.user.service.UserService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.user.OAuth2User
@@ -20,16 +23,28 @@ class ClubController(
     private val userService: UserService
 ) {
 
-    data class CreateClubRequest(
-        val name: String,
-        val description: String? = null,
-        val logoUrl: String? = null
-    )
-
     data class AssignRoleRequest(
         val userId: UUID,
         val role: ClubRole
     )
+
+    @GetMapping("/user")
+    fun getUserClubs(
+        @AuthenticationPrincipal principal: OAuth2User
+    ): ResponseEntity<List<UserClubRoleDTO>> {
+        // Get current user
+        val user = userService.getOrCreateUserFromOAuth2(principal)
+
+        // Fetch all club roles for the user
+        val userClubRoles = userClubRoleService.getAllUserClubRoles(user.id)
+
+        // Convert to DTO
+        val userClubRoleDTOs = userClubRoles.map { userClubRole ->
+            UserClubRoleDTO.fromEntity(userClubRole)
+        }
+
+        return ResponseEntity.ok(userClubRoleDTOs)
+    }
 
     @GetMapping
     fun getAllClubs(): ResponseEntity<List<ClubDTO>> {
@@ -51,7 +66,7 @@ class ClubController(
 
     @PostMapping
     fun createClub(
-        @RequestBody request: CreateClubRequest,
+        @Valid @RequestBody request: CreateClubRequest,
         @AuthenticationPrincipal principal: OAuth2User
     ): ResponseEntity<ClubDTO> {
         // Create the club

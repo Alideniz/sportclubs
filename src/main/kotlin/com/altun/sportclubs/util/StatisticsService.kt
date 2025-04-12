@@ -1,13 +1,11 @@
 package com.altun.sportclubs.util
 
 import org.hibernate.SessionFactory
-import org.hibernate.stat.Statistics
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import javax.sql.DataSource
 
 @Service
 class StatisticsService(

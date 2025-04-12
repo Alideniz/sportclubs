@@ -2,7 +2,7 @@ package com.altun.sportclubs.club.dto
 
 import com.altun.sportclubs.club.model.Club
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 data class ClubDTO(
     val id: UUID,
@@ -25,10 +25,3 @@ data class ClubDTO(
         }
     }
 }
-
-data class UserClubRoleDTO(
-    val userId: UUID,
-    val clubId: UUID,
-    val role: String,
-    val joinedAt: LocalDateTime
-)

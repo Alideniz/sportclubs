@@ -1,31 +1,16 @@
 package com.altun.sportclubs.user.service
 
-import com.altun.sportclubs.user.dto.UserDTO
 import com.altun.sportclubs.user.model.User
 import com.altun.sportclubs.user.repository.UserRepository
-import org.hibernate.StaleObjectStateException
-import org.slf4j.LoggerFactory
-import org.springframework.dao.OptimisticLockingFailureException
-import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.support.TransactionTemplate
-import java.time.LocalDateTime
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.collections.HashMap
-import kotlin.math.pow
-import kotlin.synchronized
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val transactionTemplate: TransactionTemplate
 ) {
-    private val logger = LoggerFactory.getLogger(UserService::class.java)
-
-
     @Transactional(readOnly = true)
     fun findUserById(id: UUID): Optional<User> {
         return userRepository.findById(id)
@@ -57,7 +42,6 @@ class UserService(
 
     }
 
-
     @Transactional(readOnly = true)
     fun getOrCreateUserFromOAuth2(oAuth2User: OAuth2User): User {
         val attributes = oAuth2User.attributes
@@ -71,5 +55,4 @@ class UserService(
             processOAuth2User(oAuth2User)
         }
     }
-
 } 
