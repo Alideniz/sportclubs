@@ -1,8 +1,8 @@
-// frontend/src/lib/auth.ts
-import { redirect } from 'next/navigation';
+import {redirect} from 'next/navigation';
 
 export async function checkAuthentication() {
     try {
+        console.log("Checking for new user...");
         const response = await fetch('http://localhost:8080/api/auth/user', {
             method: 'GET',
             credentials: 'include',
@@ -10,6 +10,7 @@ export async function checkAuthentication() {
                 'Content-Type': 'application/json',
             },
         });
+        console.info(response.ok);
 
         if (!response.ok) {
             // Not authenticated
