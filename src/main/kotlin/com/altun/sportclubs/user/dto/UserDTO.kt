@@ -27,7 +27,3 @@ data class UserDTO(
 
 }
 
-data class UserInfoResponse(
-    val user: UserDTO,
-    val isAuthenticated: Boolean = true
-) 

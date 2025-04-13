@@ -2,6 +2,7 @@ package com.altun.sportclubs.user.service
 
 import com.altun.sportclubs.user.model.User
 import com.altun.sportclubs.user.repository.UserRepository
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,6 +12,8 @@ import java.util.*
 class UserService(
     private val userRepository: UserRepository,
 ) {
+
+    @Cacheable(value = ["userCache"], key = "#id")
     @Transactional(readOnly = true)
     fun findUserById(id: UUID): Optional<User> {
         return userRepository.findById(id)
