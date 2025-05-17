@@ -1,11 +1,11 @@
-package com.altun.sportclubs.security
+package com.altun.sportclubs.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "app.cors")
-class CorsConfigProperties {
+open class CorsConfigProperties {
     var allowedOrigins: List<String> = listOf()
     var allowedMethods: List<String> = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
     var allowedHeaders: List<String> = listOf("*")

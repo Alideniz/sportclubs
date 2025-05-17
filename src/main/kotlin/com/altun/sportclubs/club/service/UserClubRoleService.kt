@@ -11,24 +11,24 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class UserClubRoleService(
+open class UserClubRoleService(
     private val userClubRoleRepository: UserClubRoleRepository,
     private val userRepository: UserRepository,
     private val clubRepository: ClubRepository
 ) {
 
     @Transactional(readOnly = true)
-    fun getUserRoleInClub(userId: UUID, clubId: UUID): Optional<UserClubRole> {
+    open fun getUserRoleInClub(userId: UUID, clubId: UUID): Optional<UserClubRole> {
         return userClubRoleRepository.findByUserIdAndClubId(userId, clubId)
     }
 
     @Transactional(readOnly = true)
-    fun getAllUserClubRoles(userId: UUID): List<UserClubRole> {
+    open fun getAllUserClubRoles(userId: UUID): List<UserClubRole> {
         return userClubRoleRepository.findAllByUserId(userId)
     }
 
     @Transactional(readOnly = true)
-    fun getAllClubMembers(clubId: UUID, role: ClubRole? = null): List<UserClubRole> {
+    open fun getAllClubMembers(clubId: UUID, role: ClubRole? = null): List<UserClubRole> {
         return if (role != null) {
             userClubRoleRepository.findAllByClubIdAndRole(clubId, role)
         } else {
@@ -37,7 +37,7 @@ class UserClubRoleService(
     }
 
     @Transactional
-    fun assignRoleToUser(userId: UUID, clubId: UUID, role: ClubRole): UserClubRole {
+    open fun assignRoleToUser(userId: UUID, clubId: UUID, role: ClubRole): UserClubRole {
         val user = userRepository.findById(userId)
             .orElseThrow { IllegalArgumentException("User not found with id: $userId") }
 
@@ -72,13 +72,13 @@ class UserClubRoleService(
     }
 
     @Transactional
-    fun removeUserFromClub(userId: UUID, clubId: UUID) {
+    open fun removeUserFromClub(userId: UUID, clubId: UUID) {
         val roleOpt = userClubRoleRepository.findByUserIdAndClubId(userId, clubId)
         roleOpt.ifPresent { userClubRoleRepository.delete(it) }
     }
 
     @Transactional(readOnly = true)
-    fun checkUserHasRole(userId: UUID, clubId: UUID, role: ClubRole): Boolean {
+    open fun checkUserHasRole(userId: UUID, clubId: UUID, role: ClubRole): Boolean {
         val roleOpt = userClubRoleRepository.findByUserIdAndClubId(userId, clubId)
         return roleOpt.map { it.role == role }.orElse(false)
     }

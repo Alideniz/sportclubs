@@ -19,12 +19,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(
+open class SecurityConfig(
     private val customOAuth2UserService: CustomOAuth2UserService,
 ) {
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    open fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
             .cors { it.configurationSource(corsConfigurationSource()) }
@@ -54,7 +54,7 @@ class SecurityConfig(
     }
 
     @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
+    open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("http://localhost:3000") // Replace with your UI app URL
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
@@ -68,7 +68,7 @@ class SecurityConfig(
 }
 
 @Configuration
-class AuthenticationInterceptor(
+open class AuthenticationInterceptor(
     private val userService: UserService
 ) : HandlerInterceptor {
 
@@ -118,7 +118,7 @@ class AuthenticationInterceptor(
 }
 
 @Configuration
-class WebMvcConfig(
+open class WebMvcConfig(
     private val authenticationInterceptor: AuthenticationInterceptor
 ) : WebMvcConfigurer {
 

@@ -9,18 +9,18 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-class UserService(
+open class UserService(
     private val userRepository: UserRepository,
 ) {
 
     @Cacheable(value = ["userCache"], key = "#id")
     @Transactional(readOnly = true)
-    fun findUserById(id: UUID): Optional<User> {
+    open fun findUserById(id: UUID): Optional<User> {
         return userRepository.findById(id)
     }
 
     @Transactional
-    fun processOAuth2User(oAuth2User: OAuth2User): User {
+    open fun processOAuth2User(oAuth2User: OAuth2User): User {
         val attributes = oAuth2User.attributes
         val googleId = attributes["sub"] as String
         val email = attributes["email"] as String
@@ -46,7 +46,7 @@ class UserService(
     }
 
     @Transactional(readOnly = true)
-    fun getOrCreateUserFromOAuth2(oAuth2User: OAuth2User): User {
+    open fun getOrCreateUserFromOAuth2(oAuth2User: OAuth2User): User {
         val attributes = oAuth2User.attributes
         val googleId = attributes["sub"] as String
 

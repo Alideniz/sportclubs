@@ -8,20 +8,20 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class ClubService(private val clubRepository: ClubRepository) {
+open class ClubService(private val clubRepository: ClubRepository) {
 
     @Transactional(readOnly = true)
-    fun findById(id: UUID): Optional<Club> {
+    open fun findById(id: UUID): Optional<Club> {
         return clubRepository.findById(id)
     }
 
     @Transactional(readOnly = true)
-    fun findAll(): List<Club> {
+    open fun findAll(): List<Club> {
         return clubRepository.findAll()
     }
 
     @Transactional
-    fun createClub(name: String, description: String? = null, logoUrl: String? = null): Club {
+    open fun createClub(name: String, description: String? = null, logoUrl: String? = null): Club {
         val club = Club(
             name = name,
             description = description,
@@ -31,7 +31,7 @@ class ClubService(private val clubRepository: ClubRepository) {
     }
 
     @Transactional
-    fun updateClub(id: UUID, name: String, description: String? = null, logoUrl: String? = null): Optional<Club> {
+    open fun updateClub(id: UUID, name: String, description: String? = null, logoUrl: String? = null): Optional<Club> {
         val clubOptional = clubRepository.findById(id)
 
         if (clubOptional.isPresent) {
@@ -52,7 +52,7 @@ class ClubService(private val clubRepository: ClubRepository) {
     }
 
     @Transactional
-    fun deleteClub(id: UUID) {
+    open fun deleteClub(id: UUID) {
         clubRepository.deleteById(id)
     }
 }

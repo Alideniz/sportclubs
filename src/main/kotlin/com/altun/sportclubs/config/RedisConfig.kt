@@ -11,7 +11,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @Configuration
-class RedisConfig {
+open class RedisConfig {
     @Value("\${spring.data.redis.host}")
     private lateinit var redisHost: String
 
@@ -22,7 +22,7 @@ class RedisConfig {
     private lateinit var redisPassword: String
 
     @Bean
-    fun redisConnectionFactory(): RedisConnectionFactory {
+    open fun redisConnectionFactory(): RedisConnectionFactory {
         val redisConfig = RedisStandaloneConfiguration().apply {
             hostName = redisHost
             port = redisPort.toInt()
@@ -32,7 +32,7 @@ class RedisConfig {
     }
 
     @Bean
-    fun redisTemplate(connectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> {
+    open fun redisTemplate(connectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> {
         return RedisTemplate<String, Any>().apply {
             setConnectionFactory(connectionFactory)
             keySerializer = StringRedisSerializer()
